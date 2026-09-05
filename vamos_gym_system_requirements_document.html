@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وثيقة متطلبات نظام فاموس جيم - Vamos Gym PRD</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                    },
+                    colors: {
+                        gym: {
+                            base: '#0B0F17',
+                            card: '#151C28',
+                            hover: '#1E293B',
+                            accent: '#10B981',
+                            blue: '#3B82F6',
+                            purple: '#8B5CF6',
+                            amber: '#F59E0B',
+                            rose: '#EF4444',
+                            text: '#F8FAFC',
+                            muted: '#94A3B8',
+                            border: '#1E293B'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #0B0F17;
+            color: #F8FAFC;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            height: 280px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 320px;
+            }
+        }
+        .glass-card {
+            background: rgba(21, 28, 40, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+        .glass-card:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #0B0F17;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #1E293B;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="custom-scrollbar antialiased selection:bg-emerald-500 selection:text-black">
+
+    <header class="sticky top-0 z-50 glass-card border-b border-slate-800/80 px-4 py-3 bg-gym-base/90">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-blue-600 flex items-center justify-center text-black font-black text-2xl shadow-lg shadow-emerald-500/20">
+                    V
+                </div>
+                <div>
+                    <h1 class="text-lg font-black tracking-wide text-white flex items-center gap-2">
+                        فاموس جيم <span class="text-xs px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">وثيقة المتطلبات PRD</span>
+                    </h1>
+                    <p class="text-xs text-slate-400">التصور التشغيلي والإداري لنظام إدارة الصالة الرياضية</p>
+                </div>
+            </div>
+            <nav class="hidden lg:flex items-center gap-5 text-xs font-semibold text-slate-300">
+                <a href="#overview" class="hover:text-emerald-400 transition-colors">نظرة عامة</a>
+                <a href="#modules" class="hover:text-emerald-400 transition-colors">وحدات النظام</a>
+                <a href="#roles" class="hover:text-emerald-400 transition-colors">الأدوار والصلاحيات</a>
+                <a href="#workflows" class="hover:text-emerald-400 transition-colors">دورة العمليات</a>
+                <a href="#finance" class="hover:text-emerald-400 transition-colors">النموذج المالي</a>
+                <a href="#dashboard" class="hover:text-emerald-400 transition-colors">لوحة المدير</a>
+                <a href="#matrix" class="hover:text-emerald-400 transition-colors">مصفوفة الصلاحيات</a>
+                <a href="#mvp" class="hover:text-emerald-400 transition-colors">نطاق MVP</a>
+            </nav>
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                    <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                    إصدار النظام v1.0
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-8 space-y-16">
+
+        <section class="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden border border-slate-800 bg-gradient-to-br from-gym-card via-slate-900 to-gym-base">
+            <div class="absolute -top-24 -left-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="relative z-10 max-w-4xl space-y-6">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-800/80 text-emerald-400 border border-slate-700 text-xs font-bold">
+                    <span>🏋️‍♂️</span> نظام إداري مالي تشغيلي تكاملي
+                </div>
+                
+                <h1 class="text-4xl md:text-6xl font-black text-white leading-tight tracking-tight">
+                    متطلبات نظام <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-blue-500 bg-clip-text text-transparent">فاموس جيم</span>
+                </h1>
+                
+                <p class="text-lg md:text-xl font-medium text-slate-300 leading-relaxed">
+                    التصور التشغيلي والإداري الموحد لتنظيم وحوكمة الصالات الرياضية. نظام مركزي يربط عمليات الاستقبال بالمبيعات والمخزون والمحاسبة وضبط الصلاحيات دون تعقيدات زائدة.
+                </p>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-slate-800">
+                    <div class="space-y-1">
+                        <span class="text-xs text-slate-400 block">نطاق النظام</span>
+                        <span class="text-sm font-bold text-white">فرع واحد متكامل</span>
+                    </div>
+                    <div class="space-y-1">
+                        <span class="text-xs text-slate-400 block">منهجية الحوكمة</span>
+                        <span class="text-sm font-bold text-emerald-400">فصل المهام 100%</span>
+                    </div>
+                    <div class="space-y-1">
+                        <span class="text-xs text-slate-400 block">الأدوار الأساسية</span>
+                        <span class="text-sm font-bold text-blue-400">5 أدوار وظيفية</span>
+                    </div>
+                    <div class="space-y-1">
+                        <span class="text-xs text-slate-400 block">التحقق البيومتري</span>
+                        <span class="text-sm font-bold text-amber-400">بصمة + QR استثنائي</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="overview" class="space-y-8">
+            <div class="border-r-4 border-emerald-500 pr-4">
+                <h2 class="text-3xl font-extrabold text-white">1. الملخص التنفيذي والبيئة التكاملية</h2>
+                <p class="text-slate-400 text-sm mt-1">
+                    تعريف نظام فاموس جيم، المشكلات التي يحلها، والمنظومة الشاملة لتدفق العمليات.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-card rounded-2xl p-6 space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold text-lg">
+                        🎯
+                    </div>
+                    <h3 class="text-lg font-bold text-white">ما هو نظام فاموس جيم؟</h3>
+                    <p class="text-slate-300 text-xs leading-relaxed">
+                        نظام إداري تكاملي مخصص لإدارة وتشغيل الصالات الرياضية، يهدف إلى تنظيم العمليات اليومية والإدارية والمالية في الصالة ضمن نظام مركزي واحد، بدءاً من تسجيل المشترك والتحقق بالبصمة إلى القيود المحاسبية الآلية.
+                    </p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-400 flex items-center justify-center font-bold text-lg">
+                        🛡️
+                    </div>
+                    <h3 class="text-lg font-bold text-white">ما المشاكل التي يحلها؟</h3>
+                    <p class="text-slate-300 text-xs leading-relaxed">
+                        يقضي على التلاعب بالأسعار، الإدخال اليدوي العشوائي، فقدان الإيرادات، التسرب المالي، تداخل صلاحيات الاستقبال والمبيعات، ويعالج ضعف متابعة تجديد العضويات وغياب التتبع المحاسبي الدقيق.
+                    </p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold text-lg">
+                        ⚡
+                    </div>
+                    <h3 class="text-lg font-bold text-white">الفلسفة الأساسية</h3>
+                    <p class="text-slate-300 text-xs leading-relaxed">
+                        بناء نظام متكامل وغير معقد، يغطي احتياجات الصالة الفعلية دون إقحام تعقيدات برامج ERP الضخمة. كل عملية تشغيلية تنشئ أثراً مالياً وإدارياً تلقائياً وقابلاً للتتبع.
+                    </p>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-2xl p-6 space-y-4">
+                <h3 class="text-base font-bold text-white flex items-center gap-2">
+                    <span>🔄</span> مخطط النظام البيئي (System Ecosystem Diagram)
+                </h3>
+                <p class="text-slate-400 text-xs">
+                    يوضح الشكل التالي التدفق التكاملي المعلوم لأي حركة داخل الصالة الرياضية من لحظة دخول المشترك وحتى ظهور الأثر في تقارير الإدارة العليا:
+                </p>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-2 pt-4 text-center">
+                    <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center gap-1">
+                        <span class="text-xl">👤</span>
+                        <span class="text-xs font-bold text-white">المشتركين</span>
+                        <span class="text-[10px] text-slate-500">Members</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center gap-1">
+                        <span class="text-xl">💳</span>
+                        <span class="text-xs font-bold text-emerald-400">العضويات</span>
+                        <span class="text-[10px] text-slate-500">Memberships</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center gap-1">
+                        <span class="text-xl">👆</span>
+                        <span class="text-xs font-bold text-blue-400">الحضور</span>
+                        <span class="text-[10px] text-slate-500">Attendance</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center gap-1">
+                        <span class="text-xl">📅</span>
+                        <span class="text-xs font-bold text-purple-400">الخدمات</span>
+                        <span class="text-[10px] text-slate-500">Services</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center gap-1">
+                        <span class="text-xl">🛒</span>
+                        <span class="text-xs font-bold text-amber-400">المبيعات</span>
+                        <span class="text-[10px] text-slate-500">POS</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center gap-1">
+                        <span class="text-xl">📊</span>
+                        <span class="text-xs font-bold text-teal-400">المحاسبة</span>
+                        <span class="text-[10px] text-slate-500">Accounting</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center gap-1">
+                        <span class="text-xl">👔</span>
+                        <span class="text-xs font-bold text-rose-400">الإدارة</span>
+                        <span class="text-[10px] text-slate-500">Management</span>
+                    </div>
+                    <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex flex-col items-center justify-center gap-1">
+                        <span class="text-xl">📈</span>
+                        <span class="text-xs font-bold text-indigo-400">التقارير</span>
+                        <span class="text-[10px] text-slate-500">Reports</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="modules" class="space-y-8">
+            <div class="border-r-4 border-blue-500 pr-4">
+                <h2 class="text-3xl font-extrabold text-white">2. مخطط وحدات النظام (System Modules Diagram)</h2>
+                <p class="text-slate-400 text-sm mt-1">
+                    تنظيم الوحدات الوظيفية الـ 16 المحيطة بنواة نظام فاموس جيم.
+                </p>
+            </div>
+
+            <div class="glass-panel rounded-2xl p-6 relative">
+                <div class="text-center mb-8">
+                    <div class="inline-block px-6 py-2.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-blue-600 text-black font-black text-lg shadow-xl shadow-emerald-500/10">
+                        نواة فاموس جيم - VAMOS GYM CORE
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 text-xs">
+                    <div class="p-3.5 bg-slate-900/90 rounded-xl border border-emerald-500/30 flex items-center gap-2">
+                        <span class="text-emerald-400 font-bold">01.</span>
+                        <span>إدارة المشتركين (Members)</span>
+                    </div>
+                    <div class="p-3.5 bg-slate-900/90 rounded-xl border border-emerald-500/30 flex items-center gap-2">
+                        <span class="text-emerald-400 font-bold">02.</span>
+                        <span>الباقات والعضويات (Memberships)</span>
+                    </div>
+                    <div class="p-3.5 bg-slate-900/90 rounded-xl border border-emerald-500/30 flex items-center gap-2">
+                        <span class="text-emerald-400 font-bold">03.</span>
+                        <span>تسجيل الحضور (Attendance)</span>
+                    </div>
+                    <div class="p-3.5 bg-slate-900/90 rounded-xl border border-emerald-500/30 flex items-center gap-2">
+                        <span class="text-emerald-400 font-bold">04.</span>
+                        <span>التحقق البيومتري (Biometric/QR)</span>
+                    </div>
+                    <div class="p-3.5 bg-slate-900/90 rounded-xl border border-blue-500/30 flex items-center gap-2">
+                        <span class="text-blue-400 font-bold">05.</span>
+                        <span>حجز الخدمات (Bookings)</span>
+                    </div>
+                    <div class="p-3.5 bg-slate-900/90 rounded-xl border border-blue-500/30 flex items-center gap-2">
+                        <span class="text-blue-400 font-bold">06.</span>
+                        <span>نقطة البيع (POS)</span>
+                    </div>
+                    <div class="p-3.5 bg-slate-900/90 rounded-xl border border-blue-500/30 flex items-center gap-2">
+                        <span class="text-blue-400 font-bold">07.</span>
+                        <span>إدارة المنتجات (Products)</span>
+                    </div>
+                    <div class="p-3.5 bg-slate-900/90 rounded-xl border border-blue-500/30 flex items-center gap-2">
+                        <span class="text-blue-400 font-bold">08.</span>
+                        <span>المخزون والجرد (Inventory)</span>
+                    </div>
+                    <div class="p-3.5 bg-slate-900/90 rounded-xl border border-amber-500/30 flex items-center gap-2">
+                        <span class="text-amber-400 font-bold">09.</span>
+                        <span>تتبع الإيرادات (Revenue)</span>
+                    </div>
+                    <div class="p-3.5 bg-slate-900/90 rounded-xl border border-amber-500/30 flex items-center gap-2">
+                        <span class="text-amber-400 font-bold">10.</span>
+                        <span>المصروفات التشغيلية (Expenses)</span>
+                    </div>
+                    <div class="p-3.5 bg-slate-900/90 rounded-xl border border-amber-500/30 flex items-center gap-2">
+                        <span class="text-amber-400 font-bold">11.</span>
+                        <span>الصناديق والترحيل (Cashboxes)</span>
+                    </div>
+                    <div class="p-3.5 bg-slate-900/90 rounded-xl border border-amber-500/30 flex items-center gap-2">
+                        <span class="text-amber-400 font-bold">12.</span>
+                        <span>المحاسبة والقيود (Accounting)</span>
+                    </div>
+                    <div class="p-3.5 bg-slate-900/90 rounded-xl border border-purple-500/30 flex items-center gap-2">
+                        <span class="text-purple-400 font-bold">13.</span>
+                        <span>التقارير الشاملة (Reports)</span>
+                    </div>
+                    <div class="p-3.5 bg-slate-900/90 rounded-xl border border-purple-500/30 flex items-center gap-2">
+                        <span class="text-purple-400 font-bold">14.</span>
+                        <span>لوحة الإدارة (Management)</span>
+                    </div>
+                    <div class="p-3.5 bg-slate-900/90 rounded-xl border border-rose-500/30 flex items-center gap-2">
+                        <span class="text-rose-400 font-bold">15.</span>
+                        <span>المستخدمين والصلاحيات (Users)</span>
+                    </div>
+                    <div class="p-3.5 bg-slate-900/90 rounded-xl border border-rose-500/30 flex items-center gap-2">
+                        <span class="text-rose-400 font-bold">16.</span>
+                        <span>سجل التدقيق (Audit Log)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="roles" class="space-y-8">
+            <div class="border-r-4 border-purple-500 pr-4">
+                <h2 class="text-3xl font-extrabold text-white">3. الأدوار والهيكل الوظيفي (User Roles Hierarchy)</h2>
+                <p class="text-slate-400 text-sm mt-1">
+                    فصل الصلاحيات المعتمد لتوزيع المسؤوليات ومنع التعارض المالي والإداري.
+                </p>
+            </div>
+
+            <div class="flex justify-center mb-6">
+                <div class="inline-flex items-center gap-3 px-6 py-2 bg-slate-900 rounded-2xl border border-slate-800 text-xs font-semibold text-slate-300">
+                    <span class="text-rose-400">👑 المشرف / المالك</span>
+                    <span>←</span>
+                    <span class="text-purple-400">👔 مدير الصالة</span>
+                    <span>←</span>
+                    <span class="text-amber-400">📊 المحاسب</span>
+                    <span>←</span>
+                    <span class="text-blue-400">👤 الاستقبال</span> / <span class="text-teal-400">🛒 المبيعات</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 text-xs">
+                <div class="glass-card rounded-2xl p-5 border-t-4 border-rose-500 flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="text-rose-400 font-bold text-sm">المشرف / المالك</div>
+                        <div class="text-[10px] text-slate-500 uppercase font-semibold">Owner / Admin</div>
+                        <div class="mt-3 space-y-2">
+                            <p class="text-slate-300 font-semibold">المسؤوليات الرئيسية:</p>
+                            <p class="text-slate-400">• إدارة المستخدمين والصلاحيات كاملة.</p>
+                            <p class="text-slate-400">• إعدادات الباقات والأسعار والمنتجات.</p>
+                            <p class="text-slate-400">• الاطلاع على التقارير المالية والتدقيق.</p>
+                        </div>
+                    </div>
+                    <div class="pt-3 border-t border-slate-800 text-rose-400 font-semibold text-[11px]">
+                        🔒 صلاحية كاملة على النظام
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-5 border-t-4 border-purple-500 flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="text-purple-400 font-bold text-sm">مدير الصالة</div>
+                        <div class="text-[10px] text-slate-500 uppercase font-semibold">Gym Manager</div>
+                        <div class="mt-3 space-y-2">
+                            <p class="text-slate-300 font-semibold">المسؤوليات الرئيسية:</p>
+                            <p class="text-slate-400">• متابعة الأداء التشغيلي والحضور.</p>
+                            <p class="text-slate-400">• اعتماد طلبات التجميد والإلغاء.</p>
+                            <p class="text-slate-400">• متابعة مؤشرات الاحتفاظ (Retention).</p>
+                        </div>
+                    </div>
+                    <div class="pt-3 border-t border-slate-800 text-amber-400 font-semibold text-[11px]">
+                        🚫 يمنع تعديل القيود أو الإعدادات العامة
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-5 border-t-4 border-amber-500 flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="text-amber-400 font-bold text-sm">المحاسب</div>
+                        <div class="text-[10px] text-slate-500 uppercase font-semibold">Accountant</div>
+                        <div class="mt-3 space-y-2">
+                            <p class="text-slate-300 font-semibold">المسؤوليات الرئيسية:</p>
+                            <p class="text-slate-400">• متابعة الإيرادات والمصروفات والصناديق.</p>
+                            <p class="text-slate-400">• مراجعة القيود الآلية والجرد والتسويات.</p>
+                            <p class="text-slate-400">• إعداد القوائم والتقارير المالية.</p>
+                        </div>
+                    </div>
+                    <div class="pt-3 border-t border-slate-800 text-amber-400 font-semibold text-[11px]">
+                        🚫 يمنع تسجيل الحضور أو البيع المباشر
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-5 border-t-4 border-blue-500 flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="text-blue-400 font-bold text-sm">موظف الاستقبال</div>
+                        <div class="text-[10px] text-slate-500 uppercase font-semibold">Receptionist</div>
+                        <div class="mt-3 space-y-2">
+                            <p class="text-slate-300 font-semibold">المسؤوليات الرئيسية:</p>
+                            <p class="text-slate-400">• تسجيل المشتركين والتحقق بالبصمة.</p>
+                            <p class="text-slate-400">• حجز الخدمات (تغذية/ساونا).</p>
+                            <p class="text-slate-400">• رفع طلبات التجميد والإلغاء.</p>
+                        </div>
+                    </div>
+                    <div class="pt-3 border-t border-slate-800 text-rose-400 font-semibold text-[11px]">
+                        🚫 يمنع التجميد المباشر أو كتابة الديون
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-5 border-t-4 border-teal-500 flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="text-teal-400 font-bold text-sm">مسؤول المبيعات</div>
+                        <div class="text-[10px] text-slate-500 uppercase font-semibold">Sales / POS</div>
+                        <div class="mt-3 space-y-2">
+                            <p class="text-slate-300 font-semibold">المسؤوليات الرئيسية:</p>
+                            <p class="text-slate-400">• بيع المنتجات والمكملات بالبار كود.</p>
+                            <p class="text-slate-400">• إصدار فواتير وإيصالات المبيعات.</p>
+                            <p class="text-slate-400">• تنفيذ المرتجعات برقم الفاتورة.</p>
+                        </div>
+                    </div>
+                    <div class="pt-3 border-t border-slate-800 text-rose-400 font-semibold text-[11px]">
+                        🚫 يمنع كتابة أسعار المنتجات يدويًا
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="workflows" class="space-y-8">
+            <div class="border-r-4 border-teal-500 pr-4">
+                <h2 class="text-3xl font-extrabold text-white">4. دورات العمليات الأساسية (Core Workflows)</h2>
+                <p class="text-slate-400 text-sm mt-1">
+                    خرائط إجرائية توضح التدفقات التشغيلية اليومية والرقابة عليها.
+                </p>
+            </div>
+
+            <div class="glass-card rounded-2xl p-6 space-y-4">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    <span>👤</span> 4.1 سير عمل موظف الاستقبال (Reception Workflow)
+                </h3>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 text-center text-xs pt-2">
+                    <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
+                        <span class="text-emerald-400 font-bold block mb-1">1. التسجيل</span>
+                        <span>إدخال الاسم والهاتف والصورة والبصمة</span>
+                    </div>
+                    <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
+                        <span class="text-emerald-400 font-bold block mb-1">2. اختيار الباقة</span>
+                        <span>اختيار باقة محددة مسبقًا من النظام</span>
+                    </div>
+                    <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
+                        <span class="text-emerald-400 font-bold block mb-1">3. الدفع المباشر</span>
+                        <span>دفع كامل القيمة المحددة آليًا</span>
+                    </div>
+                    <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
+                        <span class="text-emerald-400 font-bold block mb-1">4. التفعيل</span>
+                        <span>تفعيل العضوية وتحديد تاريخ الانتهاء</span>
+                    </div>
+                    <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
+                        <span class="text-emerald-400 font-bold block mb-1">5. الحضور</span>
+                        <span>تسجيل الحضور بالبصمة أو QR</span>
+                    </div>
+                    <div class="p-3 bg-slate-900 rounded-xl border border-slate-800">
+                        <span class="text-emerald-400 font-bold block mb-1">6. الخدمات</span>
+                        <span>حجز التغذية والساونا بالإيصال</span>
+                    </div>
+                </div>
+
+                <div class="p-4 rounded-xl bg-rose-500/10 border border-rose-500/20 text-xs text-rose-300 flex items-center gap-3">
+                    <span class="text-xl">⚠️</span>
+                    <div>
+                        <strong>تنبيه حوكمة صارم:</strong> يمنع منعاً باتاً على موظف الاستقبال إدخال الديون، أو تعديل أسعار الباقات يدويًا، أو تطبيق التجميد والإلغاء المباشر دون موافقة المدير.
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="glass-card rounded-2xl p-6 space-y-4">
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                        <span>👆</span> 4.2 التحقق والحضور (Biometric vs QR)
+                    </h3>
+                    <p class="text-slate-400 text-xs">
+                        تعتمد الصالة بشكل أساسي على **البصمة البيومترية** لمنع التزييف، ويُستخدم **QR Code** فقط كبديل استثنائي للمترددين أو ذوي الظروف الخاصة.
+                    </p>
+
+                    <div class="p-4 bg-slate-900 rounded-xl border border-slate-800 space-y-2 text-xs">
+                        <div class="font-bold text-blue-400">خطوات التحقق التلقائي:</div>
+                        <div class="flex items-center justify-between text-slate-300 py-1 border-b border-slate-800">
+                            <span>1. التعرف على الهوية</span>
+                            <span class="text-emerald-400 font-mono">Fingerprint / QR</span>
+                        </div>
+                        <div class="flex items-center justify-between text-slate-300 py-1 border-b border-slate-800">
+                            <span>2. فحص حالة العضوية</span>
+                            <span class="text-emerald-400">فعالة (Active)</span>
+                        </div>
+                        <div class="flex items-center justify-between text-slate-300 py-1 border-b border-slate-800">
+                            <span>3. صلاحية التواريخ</span>
+                            <span class="text-emerald-400">ضمن الفترة الزمانية</span>
+                        </div>
+                        <div class="flex items-center justify-between text-slate-300 py-1">
+                            <span>4. قرار الدخول وتسجيل السجل</span>
+                            <span class="text-emerald-400 font-bold">مقبول + تسجيل وقت</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 space-y-4">
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                        <span>🔄</span> 4.3 دورة حياة العضوية (Membership Lifecycle)
+                    </h3>
+
+                    <div class="space-y-2 text-xs">
+                        <div class="p-2.5 bg-slate-900 rounded-lg border-r-4 border-emerald-500 flex justify-between">
+                            <span>عضوية جديدة / نشطة</span>
+                            <span class="text-emerald-400 font-bold">Active</span>
+                        </div>
+                        <div class="p-2.5 bg-slate-900 rounded-lg border-r-4 border-amber-500 flex justify-between">
+                            <span>قريبة من الانتهاء (تنبيه التجديد)</span>
+                            <span class="text-amber-400 font-bold">Expiring Soon</span>
+                        </div>
+                        <div class="p-2.5 bg-slate-900 rounded-lg border-r-4 border-blue-500 flex justify-between">
+                            <span>طلب تجميد ← موافقة المدير ← مجمدة</span>
+                            <span class="text-blue-400 font-bold">Frozen</span>
+                        </div>
+                        <div class="p-2.5 bg-slate-900 rounded-lg border-r-4 border-rose-500 flex justify-between">
+                            <span>طلب إلغاء ← موافقة المدير ← ملغاة</span>
+                            <span class="text-rose-400 font-bold">Cancelled</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="glass-card rounded-2xl p-6 space-y-4">
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                        <span>🛒</span> 4.4 نقطة البيع والمبيعات (POS Workflow)
+                    </h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-[11px]">
+                        <div class="p-2 bg-slate-900 rounded border border-slate-800">مسح Barcode</div>
+                        <div class="p-2 bg-slate-900 rounded border border-slate-800">السعر الآلي</div>
+                        <div class="p-2 bg-slate-900 rounded border border-slate-800">إصدار الفاتورة</div>
+                        <div class="p-2 bg-slate-900 rounded border border-slate-800">تحديث المخزون</div>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        يتم البيع آلياً بالكامل، حيث لا يملك موظف POS صلاحية تعديل تكلفة المنتجات أو أسعارها. ينشئ النظام فوراً أثراً محاسبياً ومخزنياً مستقلاً.
+                    </p>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 space-y-4">
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                        <span>↩️</span> 4.5 إدارة المرتجعات (Returns Process)
+                    </h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-[11px]">
+                        <div class="p-2 bg-slate-900 rounded border border-slate-800">إدخال رقم الفاتورة</div>
+                        <div class="p-2 bg-slate-900 rounded border border-slate-800">فحص المنتج</div>
+                        <div class="p-2 bg-slate-900 rounded border border-slate-800">إعادة المبلغ للصندوق</div>
+                        <div class="p-2 bg-slate-900 rounded border border-slate-800">عكس القيد والمخزون</div>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        يمنع منعاً باتاً إنشاء مرتجع عشوائي بدون ربطه بالفاتورة الأصلية لضمان صحة الجرد وسجل النقدية.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="finance" class="space-y-8">
+            <div class="border-r-4 border-amber-500 pr-4">
+                <h2 class="text-3xl font-extrabold text-white">5. النموذج المالي والصناديق والمخزون</h2>
+                <p class="text-slate-400 text-sm mt-1">
+                    هيكلة التدفقات المالية والمصروفات والتسويات الصندوقية والمخزنية.
+                </p>
+            </div>
+
+            <div class="glass-card rounded-2xl p-6 space-y-6">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    <span>💵</span> 5.1 الهيكل المحاسبي الشامل (Financial Architecture Model)
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs">
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-2">
+                        <div class="font-bold text-emerald-400">مصادر الإيرادات (Revenue):</div>
+                        <p class="text-slate-300">• اشتراكات الجيم والاشتراكات المسبقة</p>
+                        <p class="text-slate-300">• مبيعات نقطة البيع (POS)</p>
+                        <p class="text-slate-300">• عيادة التغذية والساونا</p>
+                        <p class="text-slate-300">• خدمات أخرى</p>
+                    </div>
+
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-2">
+                        <div class="font-bold text-blue-400">طرق الدفع وصناديقها:</div>
+                        <p class="text-slate-300">• النقدية (Cashbox)</p>
+                        <p class="text-slate-300">• التحويل البنكي (Bank Transfer)</p>
+                        <p class="text-slate-300">• شبكة / مدى (POS Cards)</p>
+                    </div>
+
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-2">
+                        <div class="font-bold text-rose-400">المصروفات التشغيلية:</div>
+                        <p class="text-slate-300">• الإيجار والكهرباء والماء</p>
+                        <p class="text-slate-300">• رواتب الكادر والموظفين</p>
+                        <p class="text-slate-300">• الصيانة والمعدات والتسويق</p>
+                    </div>
+
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-2">
+                        <div class="font-bold text-amber-400">الأثر المالي المباشر:</div>
+                        <p class="text-slate-300">• توليد قيود مزدوجة تلقائية</p>
+                        <p class="text-slate-300">• ترحيل وتكلس الصناديق</p>
+                        <p class="text-slate-300">• إصدار قائمة الدخل والتقارير</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="glass-card rounded-2xl p-6 space-y-4">
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                        <span>🏦</span> 5.2 حركة الصندوق والجرد اليومي (Cashbox Flow)
+                    </h3>
+                    <div class="p-4 bg-slate-900 rounded-xl border border-slate-800 text-xs space-y-2 font-mono">
+                        <div class="flex justify-between text-slate-300">
+                            <span>الرصيد الافتتاحي (Opening Balance)</span>
+                            <span class="text-blue-400">$1,000.00</span>
+                        </div>
+                        <div class="flex justify-between text-emerald-400">
+                            <span>+ مقبوضات الاشتراكات والمبيعات</span>
+                            <span>+$3,450.00</span>
+                        </div>
+                        <div class="flex justify-between text-rose-400 border-b border-slate-800 pb-2">
+                            <span>- المصروفات والمرتجعات</span>
+                            <span>-$450.00</span>
+                        </div>
+                        <div class="flex justify-between text-amber-400 font-bold pt-1">
+                            <span>الرصيد المتوقع (Expected Cash)</span>
+                            <span>$4,000.00</span>
+                        </div>
+                        <div class="flex justify-between text-white font-bold pt-1 border-t border-slate-800">
+                            <span>الرصيد الفعلي بعد الجرد (Actual Cash)</span>
+                            <span class="text-emerald-400">$4,000.00 (مطابق)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 space-y-4">
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                        <span>📦</span> 5.3 الدورة المخزنية المبسطة (Inventory Cycle)
+                    </h3>
+                    <div class="space-y-2 text-xs">
+                        <div class="p-3 bg-slate-900 rounded-lg flex items-center justify-between">
+                            <span>شراء / توريد المنتجات</span>
+                            <span class="text-emerald-400 font-bold">زيادة المخزون</span>
+                        </div>
+                        <div class="p-3 bg-slate-900 rounded-lg flex items-center justify-between">
+                            <span>بيع عبر POS بالبار كود</span>
+                            <span class="text-rose-400 font-bold">خصم آلي فوري</span>
+                        </div>
+                        <div class="p-3 bg-slate-900 rounded-lg flex items-center justify-between">
+                            <span>مرتجع بملف الفاتورة</span>
+                            <span class="text-emerald-400 font-bold">إعادة للمخزون</span>
+                        </div>
+                        <div class="p-3 bg-slate-900 rounded-lg flex items-center justify-between">
+                            <span>المطابقة الفعلية vs النظام</span>
+                            <span class="text-amber-400 font-bold">تسوية جردية محاسبية</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="dashboard" class="space-y-8">
+            <div class="border-r-4 border-rose-500 pr-4">
+                <h2 class="text-3xl font-extrabold text-white">6. لوحة المدير الاستراتيجية ومؤشرات الأداء</h2>
+                <p class="text-slate-400 text-sm mt-1">
+                    شاشة القيادة التفاعلية والتحليلات البيانية الخاصة بمدير الصالة والمالك.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="glass-card p-4 rounded-xl space-y-1">
+                    <span class="text-slate-400 text-xs">المشتركين النشطين</span>
+                    <div class="text-2xl font-black text-white">1,280</div>
+                    <span class="text-[10px] text-emerald-400">↑ 8% هذا الشهر</span>
+                </div>
+                <div class="glass-card p-4 rounded-xl space-y-1">
+                    <span class="text-slate-400 text-xs">إيراد الشهر الحالي</span>
+                    <div class="text-2xl font-black text-emerald-400">$45,200</div>
+                    <span class="text-[10px] text-slate-400">100% دفع مسبق</span>
+                </div>
+                <div class="glass-card p-4 rounded-xl space-y-1">
+                    <span class="text-slate-400 text-xs">مصروفات التشغيل</span>
+                    <div class="text-2xl font-black text-rose-400">$18,400</div>
+                    <span class="text-[10px] text-slate-400">ضمن الميزانية</span>
+                </div>
+                <div class="glass-card p-4 rounded-xl space-y-1">
+                    <span class="text-slate-400 text-xs">طلبات معلقة للتدقيق</span>
+                    <div class="text-2xl font-black text-amber-400">3 طلبات</div>
+                    <span class="text-[10px] text-amber-400">تجميد / إلغاء</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="glass-card rounded-2xl p-5 space-y-3">
+                    <h4 class="text-sm font-bold text-white">اتجاه الإيرادات الشهرية (Revenue Trend)</h4>
+                    <div class="chart-container">
+                        <canvas id="revenueTrendChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-5 space-y-3">
+                    <h4 class="text-sm font-bold text-white">توزيع مصادر الإيراد (Revenue Sources)</h4>
+                    <div class="chart-container">
+                        <canvas id="revenueSourcesChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-5 space-y-3">
+                    <h4 class="text-sm font-bold text-white">حالة العضويات الحالية (Membership Status)</h4>
+                    <div class="chart-container">
+                        <canvas id="membershipStatusChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="glass-card rounded-2xl p-5 space-y-3">
+                    <h4 class="text-sm font-bold text-white">نمو الاشتراكات الجديدة (Membership Growth)</h4>
+                    <div class="chart-container">
+                        <canvas id="growthChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-5 space-y-3">
+                    <h4 class="text-sm font-bold text-white">حجم الحضور اليومي (Daily Attendance Trend)</h4>
+                    <div class="chart-container">
+                        <canvas id="attendanceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-2xl p-6 space-y-4 border-l-4 border-purple-500">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                        <span>🔔</span> محرك التنبيهات والاحتفاظ بالمشتركين (Retention Engine)
+                    </h3>
+                    <span class="text-xs bg-purple-500/20 text-purple-300 px-3 py-1 rounded-full border border-purple-500/30 font-semibold">تنبيهات ذكية</span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+                    <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 space-y-1">
+                        <span class="text-amber-400 font-bold block">غياب > 14 يوماً</span>
+                        <p class="text-slate-400">142 مشتركاً لم يحضروا رغم سريان اشتراكهم.</p>
+                    </div>
+                    <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 space-y-1">
+                        <span class="text-rose-400 font-bold block">ينتهي خلال 7 أيام</span>
+                        <p class="text-slate-400">98 عضوية تتطلب المتابعة للتجديد.</p>
+                    </div>
+                    <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 space-y-1">
+                        <span class="text-blue-400 font-bold block">انخفاض معدل الحضور</span>
+                        <p class="text-slate-400">انخفاض بنسبة 40% لبعض المشتركين المنتظمين.</p>
+                    </div>
+                    <div class="p-3 bg-slate-900 rounded-xl border border-slate-800 space-y-1">
+                        <span class="text-purple-400 font-bold block">تكرار طلبات التجميد</span>
+                        <p class="text-slate-400">مؤشر على احتمالية الغاء الاشتراكات مستقبلاً.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="matrix" class="space-y-8">
+            <div class="border-r-4 border-indigo-500 pr-4">
+                <h2 class="text-3xl font-extrabold text-white">7. مصفوفة الصلاحيات (Permissions Matrix)</h2>
+                <p class="text-slate-400 text-sm mt-1">
+                    مقارنة دقيقة وشاملة للصلاحيات الممنوحة للأدوار الـ 5 المعتمدة في الإصدار الأول.
+                </p>
+            </div>
+
+            <div class="glass-card rounded-2xl overflow-hidden border border-slate-800">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-right text-xs">
+                        <thead class="bg-slate-900 text-slate-300 border-b border-slate-800">
+                            <tr>
+                                <th class="p-3.5 font-bold">الوظيفة / الصلاحية</th>
+                                <th class="p-3.5 font-bold text-center text-blue-400">الاستقبال</th>
+                                <th class="p-3.5 font-bold text-center text-teal-400">المبيعات POS</th>
+                                <th class="p-3.5 font-bold text-center text-amber-400">المحاسب</th>
+                                <th class="p-3.5 font-bold text-center text-purple-400">مدير الصالة</th>
+                                <th class="p-3.5 font-bold text-center text-rose-400">المالك / المشرف</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-800/60 text-slate-300">
+                            <tr>
+                                <td class="p-3 font-semibold">تسجيل مشترك جديد (Register Member)</td>
+                                <td class="p-3 text-center text-emerald-400">✓ مسموح</td>
+                                <td class="p-3 text-center text-rose-400">✕ غير مسموح</td>
+                                <td class="p-3 text-center text-rose-400">✕ غير مسموح</td>
+                                <td class="p-3 text-center text-emerald-400">✓ مسموح</td>
+                                <td class="p-3 text-center text-emerald-400">✓ مسموح</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold">تسجيل الحضور بالبصمة (Attendance)</td>
+                                <td class="p-3 text-center text-emerald-400">✓ مسموح</td>
+                                <td class="p-3 text-center text-rose-400">✕ غير مسموح</td>
+                                <td class="p-3 text-center text-rose-400">✕ غير مسموح</td>
+                                <td class="p-3 text-center text-emerald-400">✓ مسموح</td>
+                                <td class="p-3 text-center text-emerald-400">✓ مسموح</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold">تغيير أسعار الباقات والمنتجات (Change Price)</td>
+                                <td class="p-3 text-center text-rose-400">✕ مقفول آلياً</td>
+                                <td class="p-3 text-center text-rose-400">✕ مقفول آلياً</td>
+                                <td class="p-3 text-center text-rose-400">✕ غير مسموح</td>
+                                <td class="p-3 text-center text-amber-400">△ بالتنسيق</td>
+                                <td class="p-3 text-center text-emerald-400">✓ مسموح</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold">تجميد العضوية (Freeze Membership)</td>
+                                <td class="p-3 text-center text-amber-400">△ إنشاء طلب</td>
+                                <td class="p-3 text-center text-rose-400">✕ غير مسموح</td>
+                                <td class="p-3 text-center text-rose-400">✕ غير مسموح</td>
+                                <td class="p-3 text-center text-emerald-400">✓ اعتماد القرار</td>
+                                <td class="p-3 text-center text-emerald-400">✓ مسموح</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold">إلغاء العضوية (Cancel Membership)</td>
+                                <td class="p-3 text-center text-amber-400">△ إنشاء طلب</td>
+                                <td class="p-3 text-center text-rose-400">✕ غير مسموح</td>
+                                <td class="p-3 text-center text-rose-400">✕ غير مسموح</td>
+                                <td class="p-3 text-center text-emerald-400">✓ اعتماد القرار</td>
+                                <td class="p-3 text-center text-emerald-400">✓ مسموح</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold">مبيعات المنتجات (POS Sale)</td>
+                                <td class="p-3 text-center text-rose-400">✕ غير مسموح</td>
+                                <td class="p-3 text-center text-emerald-400">✓ مسموح</td>
+                                <td class="p-3 text-center text-rose-400">✕ غير مسموح</td>
+                                <td class="p-3 text-center text-emerald-400">✓ مسموح</td>
+                                <td class="p-3 text-center text-emerald-400">✓ مسموح</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold">تنفيذ المرتجعات (Returns)</td>
+                                <td class="p-3 text-center text-rose-400">✕ غير مسموح</td>
+                                <td class="p-3 text-center text-amber-400">△ بملف الفاتورة</td>
+                                <td class="p-3 text-center text-emerald-400">✓ مراجعة وقيد</td>
+                                <td class="p-3 text-center text-emerald-400">✓ مسموح</td>
+                                <td class="p-3 text-center text-emerald-400">✓ مسموح</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold">تسجيل المصروفات (Expenses)</td>
+                                <td class="p-3 text-center text-rose-400">✕ غير مسموح</td>
+                                <td class="p-3 text-center text-rose-400">✕ غير مسموح</td>
+                                <td class="p-3 text-center text-emerald-400">✓ مسموح</td>
+                                <td class="p-3 text-center text-emerald-400">✓ مسموح</td>
+                                <td class="p-3 text-center text-emerald-400">✓ مسموح</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-semibold">إدارة المستخدمين وسجل التدقيق (Audit Log)</td>
+                                <td class="p-3 text-center text-rose-400">✕ غير مسموح</td>
+                                <td class="p-3 text-center text-rose-400">✕ غير مسموح</td>
+                                <td class="p-3 text-center text-rose-400">✕ غير مسموح</td>
+                                <td class="p-3 text-center text-rose-400">✕ اطلاع جزئي</td>
+                                <td class="p-3 text-center text-emerald-400">✓ تحكم كامل</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="space-y-8">
+            <div class="border-r-4 border-rose-500 pr-4">
+                <h2 class="text-3xl font-extrabold text-white">8. سجل التدقيق والحوكمة (Security & Audit Trail)</h2>
+                <p class="text-slate-400 text-sm mt-1">
+                    آلية التتبع الأمنية لكل عملية ذات أثر مالي أو إداري حساس داخل النظام.
+                </p>
+            </div>
+
+            <div class="glass-card rounded-2xl p-6 space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-6 gap-2 text-center text-xs font-mono">
+                    <div class="p-3 bg-slate-900 rounded-lg border border-slate-800">
+                        <span class="text-slate-500 block">المستخدم</span>
+                        <span class="text-white">User ID</span>
+                    </div>
+                    <div class="p-3 bg-slate-900 rounded-lg border border-slate-800">
+                        <span class="text-slate-500 block">نوع العملية</span>
+                        <span class="text-emerald-400">Action Type</span>
+                    </div>
+                    <div class="p-3 bg-slate-900 rounded-lg border border-slate-800">
+                        <span class="text-slate-500 block">السجل المتأثر</span>
+                        <span class="text-blue-400">Target Record</span>
+                    </div>
+                    <div class="p-3 bg-slate-900 rounded-lg border border-slate-800">
+                        <span class="text-slate-500 block">التاريخ والوقت</span>
+                        <span class="text-amber-400">Timestamp</span>
+                    </div>
+                    <div class="p-3 bg-slate-900 rounded-lg border border-slate-800">
+                        <span class="text-slate-500 block">الحالة السابقة</span>
+                        <span class="text-rose-400">Old State</span>
+                    </div>
+                    <div class="p-3 bg-slate-900 rounded-lg border border-slate-800">
+                        <span class="text-slate-500 block">الحالة الجديدة</span>
+                        <span class="text-purple-400">New State</span>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-slate-950 rounded-xl border border-slate-800 text-xs text-slate-300 leading-relaxed">
+                    💡 <strong>العمليات الحساسة الخاضعة للتسجيل الإجباري:</strong> تعديل سعر الباقة، إضافة أو حذف منتج، اعتماد طلبات التجميد والإلغاء، تسويات الصندوق المالي، عكس القيد المحاسبي، وتصدير التقارير المالية.
+                </div>
+            </div>
+        </section>
+
+        <section class="space-y-8">
+            <div class="border-r-4 border-emerald-500 pr-4">
+                <h2 class="text-3xl font-extrabold text-white">9. القواعد الخمس الحاكمة بالنظام (Core Principles)</h2>
+                <p class="text-slate-400 text-sm mt-1">
+                    المبادئ التشغيلية الثابتة التي تحكم تصميم وبناء كود النظام.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 text-xs">
+                <div class="glass-card p-5 rounded-2xl border-t-4 border-emerald-500 space-y-2">
+                    <span class="text-emerald-400 font-black text-lg">01</span>
+                    <h4 class="font-bold text-white text-sm">منع الإدخال اليدوي</h4>
+                    <p class="text-slate-400 leading-relaxed">تستمد القيم والأسعار من الإعدادات المسبقة، ولا يكتب الموظف السعر يدوياً.</p>
+                </div>
+
+                <div class="glass-card p-5 rounded-2xl border-t-4 border-blue-500 space-y-2">
+                    <span class="text-blue-400 font-black text-lg">02</span>
+                    <h4 class="font-bold text-white text-sm">فصل المهام والمسؤوليات</h4>
+                    <p class="text-slate-400 leading-relaxed">من ينشئ الطلب ليس هو من يعتمده، لمنع التلاعب وتضارب المصالح.</p>
+                </div>
+
+                <div class="glass-card p-5 rounded-2xl border-t-4 border-amber-500 space-y-2">
+                    <span class="text-amber-400 font-black text-lg">03</span>
+                    <h4 class="font-bold text-white text-sm">حظر الحذف المالي</h4>
+                    <p class="text-slate-400 leading-relaxed">لا تُحذف العمليات المالية بل تُعكس بقيود تصحيحية لحفظ التسلسل.</p>
+                </div>
+
+                <div class="glass-card p-5 rounded-2xl border-t-4 border-purple-500 space-y-2">
+                    <span class="text-purple-400 font-bold text-sm">04</span>
+                    <h4 class="font-bold text-white text-sm">إسناد الرقم لمصدره</h4>
+                    <p class="text-slate-400 leading-relaxed">كل رقم بالتقرير المالي قابل للتتبع حتى الفاتورة الأصلية والموظف والمشترك.</p>
+                </div>
+
+                <div class="glass-card p-5 rounded-2xl border-t-4 border-rose-500 space-y-2">
+                    <span class="text-rose-400 font-black text-lg">05</span>
+                    <h4 class="font-bold text-white text-sm">تبسيط نطاق MVP</h4>
+                    <p class="text-slate-400 leading-relaxed">التركيز على احتياجات الصالة الحقيقية ودون الدخول في تعقيدات ERP.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="mvp" class="space-y-8">
+            <div class="border-r-4 border-blue-500 pr-4">
+                <h2 class="text-3xl font-extrabold text-white">10. حد حدود الإصدار الأول (MVP Scope)</h2>
+                <p class="text-slate-400 text-sm mt-1">
+                    الحدود الواضحة للمميزات المضمنة واستبعاد التعقيدات غير المطلوبة حالياً.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 text-xs">
+                <div class="glass-card rounded-2xl p-6 border-t-4 border-emerald-500 space-y-3">
+                    <h3 class="text-base font-bold text-emerald-400 flex items-center gap-2">
+                        <span>✅</span> المكونات المضمنة في الإصدار الأول v1.0
+                    </h3>
+                    <ul class="space-y-2 text-slate-300 leading-relaxed">
+                        <li>• إدارة المشتركين والعضويات والباقات المسبقة.</li>
+                        <li>• تسجيل الحضور بالبصمة البيومترية وQR Code.</li>
+                        <li>• حجز خدمات عيادة التغذية والساونا.</li>
+                        <li>• نقطة البيع POS والبار كود والجرد المبسط.</li>
+                        <li>• إدارة الإيرادات والمصروفات وحركة الصناديق.</li>
+                        <li>• القيود المحاسبية التلقائية والتقارير المالية.</li>
+                        <li>• الأدوار الـ 5 الثابتة وسجل التدقيق الحساس.</li>
+                    </ul>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 border-t-4 border-rose-500 space-y-3">
+                    <h3 class="text-base font-bold text-rose-400 flex items-center gap-2">
+                        <span>🚫</span> المستبعدات لمنع تضخم المشروع (Out of Scope v1.0)
+                    </h3>
+                    <ul class="space-y-2 text-slate-400 leading-relaxed">
+                        <li>• المحاسبة الشاملة للشركات المتعددة (Full Corporate ERP).</li>
+                        <li>• إدارة المخازن المتعددة والمفصلة (Multi-warehouse).</li>
+                        <li>• نظام الرواتب المعقد وحسابات الشركاء (Complex Payroll).</li>
+                        <li>• إدارة الفروع المتعددة المتقدمة (Multi-branch).</li>
+                        <li>• محركات الذكاء الاصطناعي المعقدة (Advanced AI).</li>
+                        <li>• الصلاحيات المخصصة لكل مستخدم بشكل مطلق.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="space-y-8">
+            <div class="border-r-4 border-amber-500 pr-4">
+                <h2 class="text-3xl font-extrabold text-white">11. أمثلة المعاملات المكتملة (End-to-End Examples)</h2>
+                <p class="text-slate-400 text-sm mt-1">
+                    محاكاة بصرية كاملة لتدفق المعاملة من الإجراء التشغيلي حتى الأثر المالي والتقرير.
+                </p>
+            </div>
+
+            <div class="space-y-6">
+                <div class="glass-card rounded-2xl p-6 space-y-4">
+                    <h3 class="text-base font-bold text-emerald-400">مثال (1): شراء اشتراك جيم جديد</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2 text-center text-xs">
+                        <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">1. المشترك</div>
+                        <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">2. اختيار باقة 3 أشهر</div>
+                        <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">3. دفع $150 آلياً</div>
+                        <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">4. إصدار الفاتورة</div>
+                        <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">5. ترحيل الصندوق</div>
+                        <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">6. قيد آلي مزدوج</div>
+                        <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800 text-emerald-400 font-bold">7. التقرير المالي</div>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 space-y-4">
+                    <h3 class="text-base font-bold text-teal-400">مثال (2): بيع مكمل غذائي من POS</h3>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-2 text-center text-xs">
+                        <div class="p-2 bg-slate-900 rounded-xl border border-slate-800">1. المنتج</div>
+                        <div class="p-2 bg-slate-900 rounded-xl border border-slate-800">2. مسح Barcode</div>
+                        <div class="p-2 bg-slate-900 rounded-xl border border-slate-800">3. سعر $45 تلقائي</div>
+                        <div class="p-2 bg-slate-900 rounded-xl border border-slate-800">4. استلام النقدية</div>
+                        <div class="p-2 bg-slate-900 rounded-xl border border-slate-800">5. طباعة الإيصال</div>
+                        <div class="p-2 bg-slate-900 rounded-xl border border-slate-800">6. خصم من المخزون</div>
+                        <div class="p-2 bg-slate-900 rounded-xl border border-slate-800">7. قيد محاسبي</div>
+                        <div class="p-2 bg-slate-900 rounded-xl border border-slate-800 text-teal-400 font-bold">8. تقرير المبيعات</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-card rounded-3xl p-8 md:p-10 border border-slate-800 text-center space-y-6 bg-gradient-to-b from-slate-900 via-gym-card to-gym-base relative overflow-hidden">
+            <div class="max-w-3xl mx-auto space-y-4">
+                <h2 class="text-3xl font-black text-white">الرؤية النهائية لنظام فاموس جيم</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-5 gap-2 text-xs font-semibold pt-2">
+                    <div class="p-2.5 bg-slate-900/90 rounded-xl border border-emerald-500/30 text-emerald-400">1. تشغيل الصالة</div>
+                    <div class="p-2.5 bg-slate-900/90 rounded-xl border border-teal-500/30 text-teal-400">2. المبيعات POS</div>
+                    <div class="p-2.5 bg-slate-900/90 rounded-xl border border-amber-500/30 text-amber-400">3. إدارة المال</div>
+                    <div class="p-2.5 bg-slate-900/90 rounded-xl border border-purple-500/30 text-purple-400">4. الإدارة التشغيلية</div>
+                    <div class="p-2.5 bg-slate-900/90 rounded-xl border border-rose-500/30 text-rose-400">5. الإدارة العليا</div>
+                </div>
+                <p class="text-slate-300 text-sm leading-relaxed pt-4">
+                    “الفكرة الأساسية ليست أن يكون النظام كبيراً، وإنما أن تكون جميع العمليات التشغيلية والمالية مترابطة، منضبطة، وقابلة للتتبع بدقة تعكس واقع العمل في الصالة الرياضية.”
+                </p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-slate-800/80 py-8 text-center text-xs text-slate-500 space-y-2">
+        <p>جميع الحقوق محفوظة © 2026 - وثيقة متطلبات نظام فاموس جيم (Vamos Gym System PRD)</p>
+        <p>مصمم للفرق البرمجية، إدارات الصالات، والشركاء الاستراتيجيين.</p>
+    </footer>
+
+    <script>
+        function wrapLabel(str, maxLen = 16) {
+            if (typeof str !== 'string' || str.length <= maxLen) return str;
+            const words = str.split(' ');
+            const lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + ' ' + word).trim().length > maxLen) {
+                    if (currentLine) lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            });
+            if (currentLine) lines.push(currentLine.trim());
+            return lines;
+        }
+
+        const standardTooltipConfig = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        const ctx1 = document.getElementById('revenueTrendChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو'].map(l => wrapLabel(l)),
+                datasets: [{
+                    label: 'الإيراد الإجمالي ($)',
+                    data: [28000, 32000, 31000, 39000, 42000, 45200],
+                    borderColor: '#10B981',
+                    backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false }, tooltip: standardTooltipConfig },
+                scales: {
+                    x: { ticks: { color: '#94A3B8', font: { family: 'Cairo' } }, grid: { display: false } },
+                    y: { ticks: { color: '#94A3B8' }, grid: { color: '#1E293B' } }
+                }
+            }
+        });
+
+        const ctx2 = document.getElementById('revenueSourcesChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: ['اشتراكات الجيم', 'مبيعات POS', 'عيادة التغذية والساونا', 'خدمات أخرى'].map(l => wrapLabel(l)),
+                datasets: [{
+                    data: [60, 20, 15, 5],
+                    backgroundColor: ['#3B82F6', '#10B981', '#F59E0B', '#EF4444'],
+                    borderWidth: 2,
+                    borderColor: '#151C28'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: '#CBD5E1', font: { family: 'Cairo', size: 10 } } },
+                    tooltip: standardTooltipConfig
+                },
+                cutout: '65%'
+            }
+        });
+
+        const ctx3 = document.getElementById('membershipStatusChart').getContext('2d');
+        new Chart(ctx3, {
+            type: 'doughnut',
+            data: {
+                labels: ['عضويات نشطة', 'تنتهي قريباً', 'مجمدة', 'منتهية'].map(l => wrapLabel(l)),
+                datasets: [{
+                    data: [750, 140, 80, 310],
+                    backgroundColor: ['#10B981', '#F59E0B', '#3B82F6', '#EF4444'],
+                    borderWidth: 2,
+                    borderColor: '#151C28'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { color: '#CBD5E1', font: { family: 'Cairo', size: 10 } } },
+                    tooltip: standardTooltipConfig
+                },
+                cutout: '65%'
+            }
+        });
+
+        const ctx4 = document.getElementById('growthChart').getContext('2d');
+        new Chart(ctx4, {
+            type: 'bar',
+            data: {
+                labels: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو'].map(l => wrapLabel(l)),
+                datasets: [{
+                    label: 'مشتركين جدد',
+                    data: [110, 130, 125, 160, 185, 210],
+                    backgroundColor: '#3B82F6',
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false }, tooltip: standardTooltipConfig },
+                scales: {
+                    x: { ticks: { color: '#94A3B8', font: { family: 'Cairo' } }, grid: { display: false } },
+                    y: { ticks: { color: '#94A3B8' }, grid: { color: '#1E293B' } }
+                }
+            }
+        });
+
+        const ctx5 = document.getElementById('attendanceChart').getContext('2d');
+        new Chart(ctx5, {
+            type: 'line',
+            data: {
+                labels: ['السبت', 'الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس'].map(l => wrapLabel(l)),
+                datasets: [{
+                    label: 'عدد الحضور Daily',
+                    data: [420, 480, 510, 490, 530, 380],
+                    borderColor: '#8B5CF6',
+                    backgroundColor: 'rgba(139, 92, 246, 0.15)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false }, tooltip: standardTooltipConfig },
+                scales: {
+                    x: { ticks: { color: '#94A3B8', font: { family: 'Cairo' } }, grid: { display: false } },
+                    y: { ticks: { color: '#94A3B8' }, grid: { color: '#1E293B' } }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
